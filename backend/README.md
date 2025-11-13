@@ -48,6 +48,7 @@ See `.env.example` for the full list. Key settings today:
 
 - `OPENAI_API_KEY` / `LLM_PROVIDER`
 - `DATABASE_URL` / `POSTGRES_*`
+- `POSTGRES_PORT` – host-facing port (default `6543`) if you connect from local tools
 - `ALLOWED_ORIGINS`
 - `VECTOR_DB_URL`
 - `NOTION_API_KEY`

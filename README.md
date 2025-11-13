@@ -61,6 +61,7 @@ Key variables:
 
 - `OPENAI_API_KEY` / `LLM_PROVIDER`
 - `DATABASE_URL` / `POSTGRES_*`
+- `POSTGRES_PORT` (default `6543` exposed to host for local tools)
 - `ALLOWED_ORIGINS` (comma-separated domains allowed to call the API; defaults to `http://localhost:3000`)
 - `VECTOR_DB_URL`
 - `NOTION_API_KEY`
