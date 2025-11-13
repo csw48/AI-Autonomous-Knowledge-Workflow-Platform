@@ -94,3 +94,16 @@ When the backend containers are up (`localhost:8000`), navigating to `http://loc
 ## CI/CD
 
 GitHub Actions (`.github/workflows/ci.yml`) runs on every push/PR to lint (`ruff`) and test (`pytest`) the backend. Frontend lint/tests run locally today and will be added to CI in an upcoming milestone.
+
+
+### Search API
+
+- `POST /api/v1/search` – search stored document chunks by substring. Example:
+
+```bash
+curl -X POST http://localhost:8000/api/v1/search \
+  -H "Content-Type: application/json" \
+  -d '{"query":"hello","limit":5}'
+```
+
+Results return a list of `{ document_id, chunk_index, content }`.

@@ -1,5 +1,6 @@
 import ChatPanel from "../components/ChatPanel";
 import DocumentUpload from "../components/DocumentUpload";
+import SearchPanel from "../components/SearchPanel";
 import HealthStatus from "../components/HealthStatus";
 
 export default function HomePage() {
@@ -15,6 +16,7 @@ export default function HomePage() {
       </header>
       <HealthStatus />
       <DocumentUpload />
+      <SearchPanel />
       <ChatPanel />
     </div>
   );

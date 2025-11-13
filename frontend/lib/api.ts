@@ -56,3 +56,24 @@ export async function uploadDocument(file: File, title?: string): Promise<Docume
 
   return handleResponse<DocumentUploadResponse>(response);
 }
+
+export type SearchMatch = {
+  document_id: string;
+  chunk_index: number;
+  content: string;
+};
+
+export async function searchDocuments({
+  query,
+  limit = 5,
+}: {
+  query: string;
+  limit?: number;
+}): Promise<SearchMatch[]> {
+  const response = await fetch(`${API_BASE}/api/v1/search`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query, limit }),
+  });
+  return handleResponse<SearchMatch[]>(response);
+}
