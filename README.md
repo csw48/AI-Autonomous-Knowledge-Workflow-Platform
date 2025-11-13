@@ -16,6 +16,7 @@ Initial milestones set up the backend skeleton, basic LLM chat endpoint, test su
 3. Activate the virtual environment via `poetry shell` (optional).
 4. Launch the API locally: `poetry run uvicorn backend.app.main:app --reload`.
 5. Run tests: `poetry run pytest`.
+6. (Optional) Bring up Postgres + API via Docker: `docker compose up -d --build`.
 
 ### Run with Docker
 
@@ -27,6 +28,7 @@ This starts:
 
 - `db`: PostgreSQL with the `pgvector` extension (image `ankane/pgvector`).
 - `backend`: FastAPI app served via Uvicorn (listens on `localhost:8000`).
+- Containers auto-initialize the schema with retry logic so you can immediately hit `/api/v1/*`.
 
 Override defaults via `.env` or environment variables (`POSTGRES_*`, `DATABASE_URL`).
 
@@ -50,3 +52,15 @@ poetry run python scripts/notion_update.py "Inicializácia repozitára" Done --n
 ```
 
 The helper CLI sets the `Status` column and optionally appends notes as Notion comments so every milestone stays in sync with the board.
+
+## Frontend dashboard
+
+- `cd frontend && npm install`
+- Copy `.env.local.example` to `.env.local` (defaults to `http://localhost:8000`).
+- Start dev server: `cmd /c npm run dev` (PowerShell users can also run `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` then `npm run dev`).
+- Tests: `npm run test` (Vitest + RTL), lint: `npm run lint`, production build check: `npm run build`.
+
+When the backend containers are up (`localhost:8000`), navigating to `http://localhost:3000` shows:
+
+- Health card polling `/api/v1/health` every 30s.
+- Chat panel hitting `/api/v1/chat` and displaying stubbed responses/history.

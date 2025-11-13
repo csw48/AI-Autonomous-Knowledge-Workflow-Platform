@@ -10,10 +10,10 @@ WORKDIR /app
 RUN pip install --no-cache-dir poetry==${POETRY_VERSION}
 
 COPY pyproject.toml README.md ./
-RUN poetry install --without dev --no-interaction --no-ansi
-
 COPY backend ./backend
 COPY scripts ./scripts
+
+RUN poetry install --without dev --no-interaction --no-ansi
 
 EXPOSE 8000
 
