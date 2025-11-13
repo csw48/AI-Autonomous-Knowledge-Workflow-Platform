@@ -1,9 +1,8 @@
-import pytest
-from httpx import ASGITransport, AsyncClient
-
+﻿import pytest
 from backend.app.api.dependencies import get_db
 from backend.app.core import config as config_module
 from backend.app.main import create_app
+from httpx import ASGITransport, AsyncClient
 
 
 @pytest.mark.asyncio
