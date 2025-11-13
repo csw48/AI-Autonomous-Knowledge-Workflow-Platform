@@ -40,6 +40,7 @@ docker compose up --build
 
 - `GET /api/v1/health` – readiness probe.
 - `POST /api/v1/chat` – returns a stubbed LLM answer based on the configured provider. Once API keys are supplied the same abstraction will call the real provider.
+- `POST /api/v1/documents` – accepts multipart uploads (currently plaintext) and stores chunked content via `DocumentService` for later embedding/indexing. Response includes generated `id` and the chunk count.
 
 ## Environment Variables
 
@@ -47,6 +48,7 @@ See `.env.example` for the full list. Key settings today:
 
 - `OPENAI_API_KEY` / `LLM_PROVIDER`
 - `DATABASE_URL` / `POSTGRES_*`
+- `ALLOWED_ORIGINS`
 - `VECTOR_DB_URL`
 - `NOTION_API_KEY`
 - `NOTION_DATABASE_ID`

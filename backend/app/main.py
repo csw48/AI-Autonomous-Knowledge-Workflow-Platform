@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 
-from backend.app.api.routes import chat, health
+from backend.app.api.routes import chat, documents, health
 from backend.app.core.config import get_settings
 from backend.app.db.session import close_db, init_db
 from fastapi import FastAPI
@@ -28,6 +28,7 @@ def create_app() -> FastAPI:
 
     app.include_router(health.router, prefix="/api/v1")
     app.include_router(chat.router, prefix="/api/v1")
+    app.include_router(documents.router, prefix="/api/v1")
 
     return app
 

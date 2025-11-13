@@ -14,6 +14,28 @@ class DocumentService:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
+    async def ingest_text(
+        self,
+        *,
+        title: str,
+        source: str | None,
+        content: str,
+        meta: dict | None = None,
+        chunk_size: int = 800,
+        chunk_overlap: int = 80,
+    ) -> Document:
+        chunks = self._chunk_text(content, chunk_size=chunk_size, overlap=chunk_overlap)
+        if not chunks:
+            raise ValueError("Document must contain readable text.")
+
+        return await self.create_document(
+            title=title,
+            source=source,
+            meta=meta,
+            chunks=chunks,
+            embeddings=None,
+        )
+
     async def create_document(
         self,
         *,
@@ -35,11 +57,33 @@ class DocumentService:
             )
 
         self.session.add(document)
+        await self.session.flush()
         await self.session.commit()
-        await self.session.refresh(document)
         return document
 
     async def list_documents(self) -> list[Document]:
         stmt = select(Document).options(selectinload(Document.chunks))
         result = await self.session.execute(stmt)
         return list(result.scalars())
+
+    @staticmethod
+    def _chunk_text(content: str, *, chunk_size: int = 800, overlap: int = 80) -> list[str]:
+        normalized = content.replace("\r\n", "\n").strip()
+        if not normalized:
+            return []
+
+        overlap = max(0, min(overlap, chunk_size // 2))
+        chunks: list[str] = []
+        start = 0
+        text_length = len(normalized)
+
+        while start < text_length:
+            end = min(text_length, start + chunk_size)
+            chunk = normalized[start:end].strip()
+            if chunk:
+                chunks.append(chunk)
+            if end == text_length:
+                break
+            start = max(end - overlap, start + 1)
+
+        return chunks

@@ -37,6 +37,19 @@ Override defaults via `.env` or environment variables (`POSTGRES_*`, `DATABASE_U
 
 - `GET /api/v1/health` – readiness probe.
 - `POST /api/v1/chat` – simple chat endpoint returning a deterministic stub until a live LLM provider is configured.
+- `POST /api/v1/documents` – upload plaintext files (multipart) to persist and pre-chunk them for RAG ingestion.
+
+### Document ingestion
+
+Example `curl`:
+
+```bash
+curl -X POST http://localhost:8000/api/v1/documents \
+  -F "file=@notes.txt" \
+  -F "title=Notes from standup"
+```
+
+The backend currently accepts UTF-8/Latin-1 text, chunks it server-side (800 chars with overlap), and stores metadata for later embedding generation.
 
 ## Configuration
 
