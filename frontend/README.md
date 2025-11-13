@@ -14,10 +14,20 @@ Update `NEXT_PUBLIC_API_BASE_URL` if your backend is not running on `http://loca
 
 ## Commands
 
-- `npm run dev` – start dev server on http://localhost:3000 (use `cmd /c npm run dev` from PowerShell if execution policy blocks npm).
-- `npm run lint` – ESLint via Next.js.
-- `npm run test` – Vitest + Testing Library coverage for the health + chat panels.
-- `npm run build` – production build sanity check.
+- `npm run dev` - start dev server on http://localhost:3000 (use `cmd /c npm run dev` from PowerShell if execution policy blocks npm).
+- `npm run lint` - ESLint via Next.js.
+- `npm run test` - Vitest + Testing Library coverage for the health + chat panels.
+- `npm run build` - production build sanity check.
+
+## Docker
+
+The included Dockerfile builds a production image that `docker compose` uses. From the repo root run:
+
+```bash
+docker compose up -d --build
+```
+
+This launches Postgres, the FastAPI backend (port 8000), and this frontend (port 3000) serving the production Next.js build. Ensure `NEXT_PUBLIC_API_BASE_URL` is set before building so the container points at the correct backend URL.
 
 ## Features
 

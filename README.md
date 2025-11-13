@@ -28,7 +28,8 @@ This starts:
 
 - `db`: PostgreSQL with the `pgvector` extension (image `ankane/pgvector`).
 - `backend`: FastAPI app served via Uvicorn (listens on `localhost:8000`).
-- Containers auto-initialize the schema with retry logic so you can immediately hit `/api/v1/*`.
+- `frontend`: Next.js dashboard (production `next start`) exposed on `http://localhost:3000`.
+- Containers auto-initialize the schema with retry logic so you can immediately hit `/api/v1/*` and see the UI update live.
 
 Override defaults via `.env` or environment variables (`POSTGRES_*`, `DATABASE_URL`).
 
