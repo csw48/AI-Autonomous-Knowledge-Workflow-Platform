@@ -34,3 +34,25 @@ export async function sendChat(prompt: string): Promise<ChatResponse> {
 
   return handleResponse<ChatResponse>(response);
 }
+
+export type DocumentUploadResponse = {
+  id: string;
+  title: string;
+  chunk_count: number;
+  source?: string | null;
+};
+
+export async function uploadDocument(file: File, title?: string): Promise<DocumentUploadResponse> {
+  const form = new FormData();
+  form.append("file", file);
+  if (title) {
+    form.append("title", title);
+  }
+
+  const response = await fetch(`${API_BASE}/api/v1/documents`, {
+    method: "POST",
+    body: form,
+  });
+
+  return handleResponse<DocumentUploadResponse>(response);
+}

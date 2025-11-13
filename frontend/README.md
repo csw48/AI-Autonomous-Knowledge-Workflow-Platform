@@ -33,5 +33,6 @@ This launches Postgres, the FastAPI backend (port 8000), and this frontend (port
 
 - **HealthStatus** card polling `/api/v1/health` every 30s and manual refresh button.
 - **ChatPanel** that hits `/api/v1/chat`, preserves a local response history, and surfaces provider name + answer.
+- **DocumentUpload** form for sending plaintext files to `/api/v1/documents` and displaying chunk counts immediately.
 - React Query providers wrapped globally for caching + automatic retries.
 - Dark dashboard styling in `app/globals.css` for quick visual feedback.

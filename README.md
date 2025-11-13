@@ -88,6 +88,7 @@ When the backend containers are up (`localhost:8000`), navigating to `http://loc
 
 - Health card polling `/api/v1/health` every 30s.
 - Chat panel hitting `/api/v1/chat` and displaying stubbed responses/history.
+- Document upload card that posts plaintext files to `/api/v1/documents` and shows upload results live.
 
 ## CI/CD
 
