@@ -6,7 +6,8 @@ Initial milestones set up the backend skeleton, basic LLM chat endpoint, test su
 
 - `backend/app` FastAPI application modules (API, core config, services, integrations)
 - `backend/tests` pytest suite
-- `.github/workflows` placeholder for CI flows (to be implemented next milestone)
+- `.github/workflows` GitHub Actions pipeline
+- `docker-compose.yml` infrastructure for Postgres (pgvector) + API service
 
 ## Getting Started
 
@@ -15,6 +16,19 @@ Initial milestones set up the backend skeleton, basic LLM chat endpoint, test su
 3. Activate the virtual environment via `poetry shell` (optional).
 4. Launch the API locally: `poetry run uvicorn backend.app.main:app --reload`.
 5. Run tests: `poetry run pytest`.
+
+### Run with Docker
+
+```bash
+docker compose up --build
+```
+
+This starts:
+
+- `db`: PostgreSQL with the `pgvector` extension (image `ankane/pgvector`).
+- `backend`: FastAPI app served via Uvicorn (listens on `localhost:8000`).
+
+Override defaults via `.env` or environment variables (`POSTGRES_*`, `DATABASE_URL`).
 
 ### API Endpoints
 

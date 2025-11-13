@@ -7,8 +7,10 @@ This FastAPI service is the foundation for the AI Autonomous Knowledge & Workflo
 - `app/main.py` application factory and router wiring
 - `app/api/routes` endpoint definitions (`health`, `chat`)
 - `app/core` configuration + logging helpers
-- `app/services` placeholder for domain services (LLM, RAG, etc.)
-- `app/integrations` external service clients (Notion stub in place)
+- `app/db` async SQLAlchemy engine/session helpers
+- `app/models/db` ORM models (`Document`, `DocumentChunk`)
+- `app/services` domain services (LLM stub, `DocumentService`, etc.)
+- `app/integrations` external service clients (Notion)
 - `tests/` pytest suite
 
 ## Development
@@ -17,6 +19,21 @@ This FastAPI service is the foundation for the AI Autonomous Knowledge & Workflo
 poetry install
 poetry run uvicorn backend.app.main:app --reload
 poetry run pytest
+```
+
+## Database & vectors
+
+- Async SQLAlchemy 2.0 stack via `asyncpg`.
+- PostgreSQL + `pgvector` is the primary store; local tests fall back to SQLite + JSON embeddings.
+- `DocumentService` persists document metadata, chunk text, and embeddings for later retrieval/RAG steps.
+- `backend/app/db/session.py` exposes dependency-friendly helpers plus `init_db()`/`close_db()` used by FastAPI lifespan events.
+
+### Docker
+
+`docker-compose.yml` spins up `ankane/pgvector` and the FastAPI container. Ensure `.env` mirrors `.env.example`, then:
+
+```bash
+docker compose up --build
 ```
 
 ### API surface
@@ -29,7 +46,7 @@ poetry run pytest
 See `.env.example` for the full list. Key settings today:
 
 - `OPENAI_API_KEY` / `LLM_PROVIDER`
-- `DATABASE_URL`
+- `DATABASE_URL` / `POSTGRES_*`
 - `VECTOR_DB_URL`
 - `NOTION_API_KEY`
 - `NOTION_DATABASE_ID`
