@@ -1,13 +1,14 @@
 :root {
   color-scheme: light dark;
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: #0b0d12;
 }
 
 body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background: #0f1115;
+  background: radial-gradient(circle at top, #10141d, #050608);
   color: #f5f6f7;
 }
 
@@ -22,11 +23,70 @@ main {
 }
 
 .card {
-  background: #1a1d24;
+  position: relative;
+  background: rgba(20, 23, 32, 0.9);
   border-radius: 1rem;
-  padding: 1.5rem;
-  border: 1px solid #272b35;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  padding: 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.45), rgba(14, 165, 233, 0.25));
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+.card__eyebrow {
+  margin: 0;
+  color: #8d95a5;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.card__title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card__title-row h2 {
+  margin: 0.15rem 0;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(52, 211, 153, 0.18);
+  color: #34d399;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.timestamp {
+  font-size: 0.8rem;
+  color: #7c859b;
 }
 
 button {

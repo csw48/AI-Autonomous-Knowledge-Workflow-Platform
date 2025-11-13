@@ -75,3 +75,7 @@ When the backend containers are up (`localhost:8000`), navigating to `http://loc
 
 - Health card polling `/api/v1/health` every 30s.
 - Chat panel hitting `/api/v1/chat` and displaying stubbed responses/history.
+
+## CI/CD
+
+GitHub Actions (`.github/workflows/ci.yml`) runs on every push/PR to lint (`ruff`) and test (`pytest`) the backend. Frontend lint/tests run locally today and will be added to CI in an upcoming milestone.
