@@ -44,6 +44,16 @@ Copy `.env.example` to `.env` and fill in the environment variables (LLM, databa
 
 See `backend/README.md` for backend-specific notes.
 
+Key variables:
+
+- `OPENAI_API_KEY` / `LLM_PROVIDER`
+- `DATABASE_URL` / `POSTGRES_*`
+- `ALLOWED_ORIGINS` (comma-separated domains allowed to call the API; defaults to `http://localhost:3000`)
+- `VECTOR_DB_URL`
+- `NOTION_API_KEY`
+- `NOTION_DATABASE_ID`
+- `NEXT_PUBLIC_API_BASE_URL` (consumed by the frontend)
+
 ### Notion workflow tracking
 
 Set `NOTION_API_KEY` and `NOTION_DATABASE_ID` in `.env` to enable automatic Kanban updates. Update an item manually via:

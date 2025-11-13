@@ -4,15 +4,14 @@ import asyncio
 import logging
 from collections.abc import AsyncIterator
 
+from backend.app.core.config import get_settings
+from backend.app.db.base import Base
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
     async_sessionmaker,
     create_async_engine,
 )
-
-from backend.app.core.config import get_settings
-from backend.app.db.base import Base
 
 logger = logging.getLogger(__name__)
 
