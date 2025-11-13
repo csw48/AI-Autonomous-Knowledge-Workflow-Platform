@@ -26,3 +26,13 @@ Initial milestones set up the backend skeleton, basic LLM chat endpoint, test su
 Copy `.env.example` to `.env` and fill in the environment variables (LLM, database, Notion, etc.). Configuration is powered by `pydantic-settings` and automatically loaded by the FastAPI app.
 
 See `backend/README.md` for backend-specific notes.
+
+### Notion workflow tracking
+
+Set `NOTION_API_KEY` and `NOTION_DATABASE_ID` in `.env` to enable automatic Kanban updates. Update an item manually via:
+
+```bash
+poetry run python scripts/notion_update.py "Inicializácia repozitára" Done --note "Tests green"
+```
+
+The helper CLI sets the `Status` column and optionally appends notes as Notion comments so every milestone stays in sync with the board.
