@@ -1,6 +1,6 @@
 # AI Autonomous Knowledge & Workflow Platform
 
-Initial milestone for the project: repository bootstrap with backend skeleton and testing scaffold.
+Initial milestones set up the backend skeleton, basic LLM chat endpoint, test suite, and CI hooks.
 
 ## Repository Layout
 
@@ -15,6 +15,11 @@ Initial milestone for the project: repository bootstrap with backend skeleton an
 3. Activate the virtual environment via `poetry shell` (optional).
 4. Launch the API locally: `poetry run uvicorn backend.app.main:app --reload`.
 5. Run tests: `poetry run pytest`.
+
+### API Endpoints
+
+- `GET /api/v1/health` – readiness probe.
+- `POST /api/v1/chat` – simple chat endpoint returning a deterministic stub until a live LLM provider is configured.
 
 ## Configuration
 

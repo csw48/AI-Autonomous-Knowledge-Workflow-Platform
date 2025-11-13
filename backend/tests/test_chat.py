@@ -4,12 +4,12 @@ from httpx import ASGITransport, AsyncClient
 
 
 @pytest.mark.asyncio
-async def test_health_endpoint() -> None:
-    """End-to-end smoke test for the health endpoint."""
-
+async def test_chat_endpoint_returns_stubbed_answer() -> None:
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://testserver") as client:
-        response = await client.get("/api/v1/health")
+        response = await client.post("/api/v1/chat", json={"prompt": "Hello"})
 
     assert response.status_code == 200
-    assert response.json()["status"] == "ok"
+    payload = response.json()
+    assert payload["provider"] == "openai"
+    assert payload["answer"].startswith("[stub:openai]")

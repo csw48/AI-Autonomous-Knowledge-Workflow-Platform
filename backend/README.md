@@ -5,7 +5,7 @@ This FastAPI service is the foundation for the AI Autonomous Knowledge & Workflo
 ## Project Structure
 
 - `app/main.py` application factory and router wiring
-- `app/api/routes` endpoint definitions (currently only `health`)
+- `app/api/routes` endpoint definitions (`health`, `chat`)
 - `app/core` configuration + logging helpers
 - `app/services` placeholder for domain services (LLM, RAG, etc.)
 - `app/integrations` external service clients (Notion stub in place)
@@ -18,6 +18,11 @@ poetry install
 poetry run uvicorn backend.app.main:app --reload
 poetry run pytest
 ```
+
+### API surface
+
+- `GET /api/v1/health` – readiness probe.
+- `POST /api/v1/chat` – returns a stubbed LLM answer based on the configured provider. Once API keys are supplied the same abstraction will call the real provider.
 
 ## Environment Variables
 

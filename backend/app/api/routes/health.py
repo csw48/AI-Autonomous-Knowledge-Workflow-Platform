@@ -1,8 +1,7 @@
-from fastapi import APIRouter, Depends
-
 from backend.app.api.dependencies import get_app_settings
 from backend.app.core.config import Settings
 from backend.app.models.schemas.health import HealthResponse
+from fastapi import APIRouter, Depends
 
 router = APIRouter(tags=["health"])
 
