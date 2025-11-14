@@ -18,7 +18,7 @@ class EmbeddingService:
             return [self._hash_embed(text) for text in texts]
         raise NotImplementedError("Only stub embeddings implemented")
 
-    def _hash_embed(self, text: str, dim: int = 128) -> Vector:
+    def _hash_embed(self, text: str, dim: int = 1536) -> Vector:
         rng = np.random.default_rng(abs(hash(text)) % (2**32))
         vector = rng.standard_normal(dim)
         norm = np.linalg.norm(vector)

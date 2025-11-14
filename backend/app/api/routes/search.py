@@ -23,5 +23,5 @@ async def search_chunks(
     payload: SearchRequest, db: AsyncSession = Depends(get_db)
 ) -> list[SearchResult]:
     service = SearchService(db)
-    matches = await service.search(query=payload.query, limit=payload.limit)
+    matches = await service.search_by_vector(query=payload.query, limit=payload.limit)
     return [SearchResult(**match) for match in matches]

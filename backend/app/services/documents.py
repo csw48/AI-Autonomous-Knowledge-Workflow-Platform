@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 
 from backend.app.models.db.documents import Document, DocumentChunk
+from backend.app.services.embeddings import EmbeddingService
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
@@ -23,17 +24,24 @@ class DocumentService:
         meta: dict | None = None,
         chunk_size: int = 800,
         chunk_overlap: int = 80,
+        embed: bool = True,
+        embedding_service: EmbeddingService | None = None,
     ) -> Document:
         chunks = self._chunk_text(content, chunk_size=chunk_size, overlap=chunk_overlap)
         if not chunks:
             raise ValueError("Document must contain readable text.")
+
+        embeddings: Sequence[Sequence[float]] | None = None
+        if embed:
+            service = embedding_service or EmbeddingService()
+            embeddings = await service.embed(chunks)
 
         return await self.create_document(
             title=title,
             source=source,
             meta=meta,
             chunks=chunks,
-            embeddings=None,
+            embeddings=embeddings,
         )
 
     async def create_document(

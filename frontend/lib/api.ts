@@ -35,6 +35,28 @@ export async function sendChat(prompt: string): Promise<ChatResponse> {
   return handleResponse<ChatResponse>(response);
 }
 
+export type RagContext = {
+  document_id: string;
+  chunk_index: number;
+  content: string;
+};
+
+export interface RagChatResponse extends ChatResponse {
+  contexts: RagContext[];
+}
+
+export async function sendRagChat(query: string, top_k = 5): Promise<RagChatResponse> {
+  const response = await fetch(`${API_BASE}/api/v1/chat/rag`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ query, top_k }),
+  });
+
+  return handleResponse<RagChatResponse>(response);
+}
+
 export type DocumentUploadResponse = {
   id: string;
   title: string;
