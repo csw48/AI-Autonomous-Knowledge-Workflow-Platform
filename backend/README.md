@@ -1,6 +1,6 @@
 # Backend Overview
 
-This FastAPI service is the foundation for the AI Autonomous Knowledge & Workflow Platform. Future milestones will extend it with RAG, agent tooling, MCP-like integrations, and voice support.
+This FastAPI service is the foundation for the AI Autonomous Knowledge & Workflow Platform. It already exposes basic chat, document ingestion, search, and RAG endpoints; future milestones will extend it with agent tooling, MCP-like integrations, and voice support.
 
 ## Project Structure
 
@@ -41,6 +41,13 @@ docker compose up --build
 - `GET /api/v1/health` – readiness probe.
 - `POST /api/v1/chat` – returns a stubbed LLM answer based on the configured provider. Once API keys are supplied the same abstraction will call the real provider.
 - `POST /api/v1/documents` – accepts multipart uploads (currently plaintext) and stores chunked content via `DocumentService` for later embedding/indexing. Response includes generated `id` and the chunk count.
+
+### RAG & search
+
+The backend also wires together:
+
+- `POST /api/v1/search` for keyword/vector search over stored document chunks.
+- `POST /api/v1/chat/rag` for retrieval-augmented chat that uses the search service to pull relevant chunks before calling the LLM.
 
 ## Environment Variables
 

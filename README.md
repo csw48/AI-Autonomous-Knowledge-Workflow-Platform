@@ -49,7 +49,7 @@ curl -X POST http://localhost:8000/api/v1/documents \
   -F "title=Notes from standup"
 ```
 
-The backend currently accepts UTF-8/Latin-1 text, chunks it server-side (800 chars with overlap), and stores metadata for later embedding generation.
+The backend currently accepts UTF-8/Latin-1 text, chunks it server-side (800 chars with overlap), generates stub embeddings, and stores everything for later RAG and search.
 
 ## Configuration
 
@@ -107,3 +107,17 @@ curl -X POST http://localhost:8000/api/v1/search \
 ```
 
 Results return a list of `{ document_id, chunk_index, content }`.
+
+### RAG Chat API
+
+- `POST /api/v1/chat/rag` �?" retrieval-augmented chat that uses the search service (vector search with keyword fallback) to pull relevant chunks and feed them into the LLM prompt.
+
+Example:
+
+```bash
+curl -X POST http://localhost:8000/api/v1/chat/rag \
+  -H "Content-Type: application/json" \
+  -d '{"query":"What do my notes say about hello world?","top_k":5}'
+```
+
+The response contains the LLM `answer` plus the list of `contexts` (document IDs and chunk indices) that backed the answer.
