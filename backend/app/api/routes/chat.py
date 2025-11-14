@@ -34,7 +34,7 @@ async def chat_rag_endpoint(
     """RAG-style chat that retrieves document chunks before answering."""
 
     search_service = SearchService(db)
-    matches = await search_service.search_by_vector(query=body.query, limit=body.top_k)
+    matches = await search_service.search(query=body.query, limit=body.top_k)
 
     if not matches:
         answer = "No relevant documents found for your query yet. Try uploading more context."

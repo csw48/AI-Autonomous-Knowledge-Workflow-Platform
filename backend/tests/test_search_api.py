@@ -32,5 +32,14 @@ async def test_search_endpoint_returns_matches(db_session, monkeypatch):
         assert isinstance(data, list)
         assert any("hello" in item["content"].lower() for item in data)
 
-    app.dependency_overrides.clear()
+        # Longer natural-language query should still hit via token matching
+        response2 = await client.post(
+            "/api/v1/search",
+            json={"query": "What does the hello world document contain?", "limit": 5},
+        )
+        assert response2.status_code == 200
+        data2 = response2.json()
+        assert isinstance(data2, list)
+        assert any("hello" in item["content"].lower() for item in data2)
 
+    app.dependency_overrides.clear()
