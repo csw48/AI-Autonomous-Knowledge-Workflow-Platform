@@ -1,11 +1,12 @@
 from contextlib import asynccontextmanager
 
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from backend.app.api.routes import chat, documents, health
 from backend.app.api.routes import search as search_route
 from backend.app.core.config import get_settings
 from backend.app.db.session import close_db, init_db
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
 
 @asynccontextmanager

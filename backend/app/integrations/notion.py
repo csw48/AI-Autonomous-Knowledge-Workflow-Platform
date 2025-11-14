@@ -3,8 +3,9 @@ from __future__ import annotations
 import logging
 from typing import Any, Final
 
-from backend.app.core.config import Settings, get_settings
 from httpx import AsyncClient, HTTPStatusError
+
+from backend.app.core.config import Settings, get_settings
 
 logger = logging.getLogger(__name__)
 

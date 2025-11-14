@@ -1,3 +1,6 @@
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from backend.app.api.dependencies import get_db, get_llm_service
 from backend.app.models.schemas.chat import (
     ChatRequest,
@@ -8,8 +11,6 @@ from backend.app.models.schemas.chat import (
 )
 from backend.app.services.llm import LLMService
 from backend.app.services.search import SearchService
-from fastapi import APIRouter, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(tags=["chat"])
 

@@ -5,10 +5,11 @@ from typing import Any
 from uuid import UUID as UUIDType
 from uuid import uuid4
 
-from backend.app.db.base import Base
 from sqlalchemy import JSON, ForeignKey, Index, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from backend.app.db.base import Base
 
 
 def vector_column(dimensions: int | None = None):

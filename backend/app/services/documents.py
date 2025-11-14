@@ -7,11 +7,12 @@ import docx  # type: ignore[import-untyped]
 import pytesseract
 from PIL import Image
 from PyPDF2 import PdfReader
-from backend.app.models.db.documents import Document, DocumentChunk
-from backend.app.services.embeddings import EmbeddingService
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
+
+from backend.app.models.db.documents import Document, DocumentChunk
+from backend.app.services.embeddings import EmbeddingService
 
 
 class DocumentService:

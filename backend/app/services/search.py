@@ -2,10 +2,11 @@ from __future__ import annotations
 
 import re
 
-from backend.app.models.db.documents import DocumentChunk
-from backend.app.services.embeddings import EmbeddingService
 from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from backend.app.models.db.documents import DocumentChunk
+from backend.app.services.embeddings import EmbeddingService
 
 
 class SearchService:

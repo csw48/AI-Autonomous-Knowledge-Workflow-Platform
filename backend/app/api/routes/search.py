@@ -1,8 +1,9 @@
-from backend.app.api.dependencies import get_db
-from backend.app.services.search import SearchService
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel, Field
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from backend.app.api.dependencies import get_db
+from backend.app.services.search import SearchService
 
 router = APIRouter(prefix="/search", tags=["search"])
 

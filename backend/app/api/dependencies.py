@@ -1,9 +1,10 @@
 from collections.abc import AsyncIterator
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from backend.app.core.config import Settings, get_settings
 from backend.app.db.session import get_db_session
 from backend.app.services.llm import LLMService
-from sqlalchemy.ext.asyncio import AsyncSession
 
 
 def get_app_settings() -> Settings:

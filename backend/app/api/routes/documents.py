@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-from typing import Any
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.app.api.dependencies import get_db
 from backend.app.models.schemas.documents import DocumentIngestResponse
 from backend.app.services.documents import DocumentService
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
-from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 
