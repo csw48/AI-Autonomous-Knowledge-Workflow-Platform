@@ -7,6 +7,11 @@ ENV POETRY_VERSION=2.2.1 \
 
 WORKDIR /app
 
+# System dependencies (Tesseract for OCR)
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends tesseract-ocr \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN pip install --no-cache-dir poetry==${POETRY_VERSION}
 
 COPY pyproject.toml README.md ./

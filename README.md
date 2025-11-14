@@ -37,7 +37,7 @@ Override defaults via `.env` or environment variables (`POSTGRES_*`, `DATABASE_U
 
 - `GET /api/v1/health` â€“ readiness probe.
 - `POST /api/v1/chat` â€“ simple chat endpoint returning a deterministic stub until a live LLM provider is configured.
-- `POST /api/v1/documents` â€“ upload plaintext files (multipart) to persist and pre-chunk them for RAG ingestion.
+- `POST /api/v1/documents` â€“ upload text, PDF, DOCX or image files (multipart) to persist, chunk, OCR (for images) and embed them for RAG/search.
 
 ### Document ingestion
 
@@ -121,3 +121,20 @@ curl -X POST http://localhost:8000/api/v1/chat/rag \
 ```
 
 The response contains the LLM `answer` plus the list of `contexts` (document IDs and chunk indices) that backed the answer.
+
+
+
+### Agent API
+
+- `POST /api/v1/agents/execute` ??" simple multi-step agent over stored documents.
+
+Example:
+
+```bash
+curl -X POST http://localhost:8000/api/v1/agents/execute \
+  -H "Content-Type: application/json" \
+  -d '{"goal":"Find info about hello world in my documents","max_chunks":3}'
+```
+
+Odpoved obsahuje finálny `answer` a zoznam `steps` (plan, tool_call, answer) pre rýchly náhlad do reasoning trace.
+
