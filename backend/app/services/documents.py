@@ -1,7 +1,12 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from io import BytesIO
 
+import docx  # type: ignore[import-untyped]
+import pytesseract
+from PIL import Image
+from PyPDF2 import PdfReader
 from backend.app.models.db.documents import Document, DocumentChunk
 from backend.app.services.embeddings import EmbeddingService
 from sqlalchemy import select
@@ -69,6 +74,44 @@ class DocumentService:
         await self.session.commit()
         return document
 
+    async def ingest_file(
+        self,
+        *,
+        filename: str,
+        content_type: str | None,
+        data: bytes,
+        title: str | None = None,
+        source: str | None = None,
+        meta: dict | None = None,
+        chunk_size: int = 800,
+        chunk_overlap: int = 80,
+        embed: bool = True,
+        embedding_service: EmbeddingService | None = None,
+    ) -> Document:
+        """Ingest an arbitrary uploaded file (PDF, DOCX, text, image with OCR)."""
+
+        text = self._extract_text_from_file(filename=filename, content_type=content_type, data=data)
+        if not text.strip():
+            raise ValueError("Uploaded file is empty or unreadable.")
+
+        inferred_title = title or filename or "Untitled"
+        inferred_source = source or filename
+        meta = dict(meta or {})
+        meta.setdefault("filename", filename)
+        if content_type:
+            meta.setdefault("content_type", content_type)
+
+        return await self.ingest_text(
+            title=inferred_title,
+            source=inferred_source,
+            content=text,
+            meta=meta,
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            embed=embed,
+            embedding_service=embedding_service,
+        )
+
     async def list_documents(self) -> list[Document]:
         stmt = select(Document).options(selectinload(Document.chunks))
         result = await self.session.execute(stmt)
@@ -95,3 +138,55 @@ class DocumentService:
             start = max(end - overlap, start + 1)
 
         return chunks
+
+    @staticmethod
+    def _extract_text_from_file(
+        *, filename: str, content_type: str | None, data: bytes
+    ) -> str:
+        """Best-effort text extraction for PDF, DOCX, plaintext, and images (OCR)."""
+
+        if not data:
+            return ""
+
+        name_lower = (filename or "").lower()
+        content_type = (content_type or "").lower()
+
+        # PDF
+        if name_lower.endswith(".pdf") or "pdf" in content_type:
+            try:
+                reader = PdfReader(BytesIO(data))
+                parts: list[str] = []
+                for page in reader.pages:
+                    page_text = page.extract_text() or ""
+                    parts.append(page_text)
+                return "\n".join(parts)
+            except Exception:
+                return ""
+
+        # DOCX
+        if name_lower.endswith(".docx") or "word" in content_type:
+            try:
+                document = docx.Document(BytesIO(data))
+                return "\n".join(paragraph.text for paragraph in document.paragraphs)
+            except Exception:
+                return ""
+
+        # Images (basic OCR)
+        if any(
+            name_lower.endswith(ext)
+            for ext in (".png", ".jpg", ".jpeg", ".tiff", ".bmp")
+        ) or content_type.startswith("image/"):
+            try:
+                image = Image.open(BytesIO(data))
+                return pytesseract.image_to_string(image)
+            except Exception:
+                return ""
+
+        # Fallback: try text decode
+        for encoding in ("utf-8", "latin-1"):
+            try:
+                return data.decode(encoding)
+            except UnicodeDecodeError:
+                continue
+
+        return data.decode("utf-8", errors="ignore")

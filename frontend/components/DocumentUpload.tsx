@@ -37,15 +37,16 @@ export default function DocumentUpload() {
       <p className="card__eyebrow">Documents</p>
       <h2 style={{ marginTop: "0.25rem" }}>Upload</h2>
       <p style={{ color: "#9ea5b5", marginTop: "0.5rem" }}>
-        Upload a plaintext file to index it for later RAG processing. Chunking happens on the server.
+        Upload a document (text, PDF, DOCX or image) to index it for later RAG processing. Chunking and optional OCR
+        happen on the server.
       </p>
       <form onSubmit={handleSubmit} style={{ display: "grid", gap: "0.75rem", marginTop: "1rem" }}>
         <label style={{ display: "grid", gap: "0.35rem", color: "#9ea5b5" }}>
-          <span>Document file (text/plain)</span>
+          <span>Document file (text, PDF, DOCX, image)</span>
           <input
             type="file"
             aria-label="Document file"
-            accept="text/plain"
+            accept=".txt,.pdf,.docx,image/*"
             onChange={(event) => {
               const file = event.target.files?.[0];
               setSelectedFile(file ?? null);
