@@ -3,9 +3,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Protocol
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from backend.app.services.llm import LLMService
 from backend.app.services.search import SearchService
-from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class Tool(Protocol):

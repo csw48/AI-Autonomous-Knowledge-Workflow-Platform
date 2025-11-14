@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from backend.app.api.dependencies import get_db, get_llm_service
 from backend.app.models.schemas.agents import (
     AgentExecuteRequest,
@@ -8,8 +11,6 @@ from backend.app.models.schemas.agents import (
 )
 from backend.app.services.agents import DocumentSearchTool, SimpleAgent
 from backend.app.services.llm import LLMService
-from fastapi import APIRouter, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(prefix="/agents", tags=["agents"])
 
